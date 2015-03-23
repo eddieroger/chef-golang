@@ -10,3 +10,4 @@ default['go']['packages'] = []
 default['go']['owner'] = 'root'
 default['go']['group'] = 'root'
 default['go']['mode'] = 0755
+default['go']['systemwide'] = false

@@ -51,11 +51,19 @@ directory node['go']['gobin'] do
   mode node['go']['mode']
 end
 
-template "/etc/profile.d/golang.sh" do
-  source "golang.sh.erb"
-  owner 'root'
-  group 'root'
-  mode 0755
+if node['go']['systemwide'] 
+    envfile = Chef::Util::FileEdit.initialize("/etc/environment")
+    envfile.insert_line_if_no_match(/^GOPATH/, "GOPATH=<%= node['go']['gopath'] %>")
+    envfile.insert_line_if_no_match(/^GOBIN/, "GOBIN=<%= node['go']['gobin'] %>")    
+    envfile.insert_line_if_no_match(/\/go\/bin/, "PATH=$PATH:<%= node['go']['install_dir'] %>/go/bin:<%= node['go']['gobin'] %>"
+    envfile.write_file
+else
+    template "/etc/profile.d/golang.sh" do
+      source "golang.sh.erb"
+      owner 'root'
+      group 'root'
+      mode 0755
+    end
 end
 
 if node['go']['scm']
