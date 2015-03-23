@@ -55,7 +55,7 @@ if node['go']['systemwide']
     envfile = Chef::Util::FileEdit.initialize("/etc/environment")
     envfile.insert_line_if_no_match(/^GOPATH/, "GOPATH=<%= node['go']['gopath'] %>")
     envfile.insert_line_if_no_match(/^GOBIN/, "GOBIN=<%= node['go']['gobin'] %>")    
-    envfile.insert_line_if_no_match(/\/go\/bin/, "PATH=$PATH:<%= node['go']['install_dir'] %>/go/bin:<%= node['go']['gobin'] %>"
+    envfile.insert_line_if_no_match(/\/go\/bin/, "PATH=$PATH:<%= node['go']['install_dir'] %>/go/bin:<%= node['go']['gobin'] %>")
     envfile.write_file
 else
     template "/etc/profile.d/golang.sh" do
